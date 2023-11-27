@@ -31,7 +31,34 @@ async function index(req,res){
   }
 }
 
+async function show(req,res) {
+  try {
+    const blog = await Blog.findById(req.params.blogId)
+    .populate(['author', 'comments.author']) // <= may need to update how populating comment author in future
+    res.status(200).json(blog)
+  } catch (error) {
+    console.log('❌', error)
+    res.status.json(500).json(error)
+  }
+}
+
+async function update(req,res){
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      req.params.blogId, 
+      req.body, 
+      { new : true }
+    ).populate('author')
+    res.status(200).json(blog)
+  } catch (error) {
+    console.log('❌', error)
+    res.status.json(500).json(error)
+  }
+}
+
 export { 
   create,
-  index
+  index,
+  show,
+  update
 }
