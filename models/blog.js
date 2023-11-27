@@ -12,6 +12,10 @@ const commentSchema = new Schema(
   }, { timestamps: true }
 )
 
+const photoSchema = new Schema({
+  url: String
+})
+
 const blogSchema = new Schema(
   {
     title: {
@@ -31,10 +35,6 @@ const blogSchema = new Schema(
       type: Schema.Types.ObjectId, ref: 'Profile'
     },
     comments: [commentSchema],
-    admin: {
-      type: Boolean,
-      default: false,
-    },
     likes: [{
       type:Schema.Types.ObjectId, ref:'Profile'
     }],
