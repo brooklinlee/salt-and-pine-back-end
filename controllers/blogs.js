@@ -4,7 +4,7 @@ import { Blog } from "../models/blog.js"
 
 async function create(req, res){
   try {
-    req.body.author = req.user.Profile
+    req.body.author = req.user.profile
     const blog = await Blog.create(req.body)
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,
@@ -24,6 +24,8 @@ async function index(req,res){
     const blogs = await Blog.find({})
       .populate('author')
       .sort({ createdAt: 'desc' })
+
+      console.log('Populated blogs: ', blogs)
       res.status(200).json(blogs)
   } catch (error) {
     console.log('❌', error)
@@ -75,12 +77,9 @@ async function createComment(req, res) {
     const blog = await Blog.findById(req.params.blogId)
     blog.comments.push(req.body)
     await blog.save()
-
     const newComment = blog.comments[blog.comments.length - 1]
-
     const profile = await Profile.findById(req.user.profile)
     newComment.author = profile
-    
     res.status(201).json(newComment)
   } catch (error) {
     console.log('❌', error)

@@ -22,10 +22,11 @@ const blogSchema = new Schema(
       required: true,
       enum: ['Utah Gems', 'Seasonal', 'Great Outdoors', 'Foodie Finds', 'Family Friendly', 'Travel', 'Events & Festivals', 'Personal Stories' ]
     },
-    author: { type: Schema.Types.ObjectId, ref: 'Profile' },
+    author: { type:Schema.Types.ObjectId,ref:'Profile' },
+    location:{ type: String },
     comments: [commentSchema],
     likes: [{ type:Schema.Types.ObjectId, ref:'Profile' }],
-    saves: [{type:Schema.Types.ObjectId, ref:'Profile'}],
+    saves: [{ type:Schema.Types.ObjectId, ref:'Profile' }],
     mainPhoto: {type: String},
     morePhotos: [photoSchema]
   },
