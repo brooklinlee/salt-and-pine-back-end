@@ -24,8 +24,7 @@ async function index(req,res){
     const blogs = await Blog.find({})
       .populate('author')
       .sort({ createdAt: 'desc' })
-
-      console.log('Populated blogs: ', blogs)
+      // console.log('Populated blogs: ', blogs)
       res.status(200).json(blogs)
   } catch (error) {
     console.log('❌', error)
@@ -36,7 +35,10 @@ async function index(req,res){
 async function show(req,res) {
   try {
     const blog = await Blog.findById(req.params.blogId)
-    .populate(['author', 'comments.author']) // <= may need to update how populating comment author in future
+    .populate([
+      {path: 'author'},
+      {path: 'comments.author'}
+    ])
     res.status(200).json(blog)
   } catch (error) {
     console.log('❌', error)

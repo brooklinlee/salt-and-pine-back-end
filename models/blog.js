@@ -20,7 +20,8 @@ const blogSchema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ['Utah Gems', 'Seasonal', 'Great Outdoors', 'Foodie Finds', 'Family Friendly', 'Travel', 'Events & Festivals', 'Personal Stories' ]
+      enum: ['Utah Gems', 'Seasonal', 'Great Outdoors', 'Foodie Finds', 'Family Friendly', 'Travel', 'Events & Festivals', 'Personal Stories' ],
+      default: 'Utah Gems'
     },
     author: { type:Schema.Types.ObjectId,ref:'Profile' },
     location:{ type: String },
