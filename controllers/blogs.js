@@ -92,10 +92,11 @@ async function createComment(req, res) {
 async function updateComment (req, res) {
   try {
     const blog = await Blog.findById(req.params.blogId)
+    .populate({path: 'comments.author'})
     const comment = blog.comments.id(req.params.commentId)
     comment.text = req.body.text
     await blog.save()
-    res.status(200).json(blog)
+    res.status(200).json(comment)
   } catch (error) {
     console.log('❌', error)
     res.status(500).json(error)
