@@ -10,7 +10,8 @@ const profileSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  blogs: [{ type: Schema.Types.ObjectId, ref:'Blog' }]
+  blogs: [{ type: Schema.Types.ObjectId, ref:'Blog' }],
+  vlogs: [{ type: Schema.Types.ObjectId, ref:'Vlog' }]
 },{
   timestamps: true,
 })
