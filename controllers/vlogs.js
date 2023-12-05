@@ -16,17 +16,25 @@ async function create(req, res) {
     vlog.author = profile
     res.status(201).json(vlog)
   } catch (error) {
-    console.log(error)
-    res.status(500).json('❌',error)
+    console.log('❌', error)
+    res.status(500).json(error)
   }
 }
 
 
 async function index(req, res){
   try {
-    
+    // find all vlogs
+    const vlogs = await Vlog.find({})
+    // populate the author
+    .populate('author')
+    // sort in desc order by when it was createdAt
+    .sort({ createdAt: 'desc' })
+    // return something
+    res.status(200).json(vlogs)
   } catch (error) {
-    
+    console.log('❌', error)
+    res.status(500).json(error)
   }
 }
 
