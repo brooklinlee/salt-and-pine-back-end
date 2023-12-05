@@ -103,6 +103,18 @@ async function updateComment (req, res) {
   }
 }
 
+async function deleteComment(req, res) {
+  try {
+    const blog = await Blog.findById(req.params.blogId)
+    blog.comments.remove({_id: req.params.commentId})
+    await blog.save()
+    res.status(200).json(blog)
+  } catch (error) {
+    console.log('❌', error)
+    res.status(500).json(error)
+  }
+}
+
 export { 
   create,
   index,
@@ -110,5 +122,6 @@ export {
   update,
   deleteBlog as delete,
   createComment, 
-  updateComment
+  updateComment,
+  deleteComment,
 }
