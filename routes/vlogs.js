@@ -6,8 +6,9 @@ const router = Router()
 
 // ========== Public Routes ===========
 router.get('/', vlogsCtrl.index)
-router.post('/', vlogsCtrl.create)
 
 // ========= Protected Routes ========= 
+router.use(decodeUserFromToken)
+router.post('/', checkAuth, vlogsCtrl.create)
 
 export { router }
