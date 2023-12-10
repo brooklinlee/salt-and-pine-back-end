@@ -50,7 +50,6 @@ async function show(req, res) {
 
 async function update(req, res) {
   try {
-    // find vlog by id and update
     const vlog = await Vlog.findByIdAndUpdate(
       req.params.vlogId,
       req.body,
@@ -58,10 +57,19 @@ async function update(req, res) {
     )
     .populate('author')
     res.status(200).json(vlog)
-    // params: vlogId & req.body
-    // new: true
-    // populate author
-    // return vlog
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function deleteVlog(req, res) {
+  try {
+    // find by Id and delete
+    const vlog = await Vlog.findByIdAndDelete(req.params.vlogId)
+    const profile = await Profile.findByIdAndUpdate(req.user.profile)
+    profile.vlogs.remove({ _id: req.params.vlogId })
+    await profile.save()
+    res.status(200).json(vlog)
   } catch (error) {
     console.log(error)
   }
@@ -72,4 +80,5 @@ export {
   index,
   show,
   update,
+  deleteVlog as delete,
 }
