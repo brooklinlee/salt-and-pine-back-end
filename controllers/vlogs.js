@@ -26,8 +26,7 @@ async function index(req, res){
   try {
     const vlogs = await Vlog.find({})
     .populate('author')
-    .sort({ createdAt: 'desc' })
-    console.log('Populated vlogs: ', vlogs)
+    .sort({ createdAt: 'desc' })  
     res.status(200).json(vlogs)
   } catch (error) {
     console.log('❌', error)
@@ -37,23 +36,40 @@ async function index(req, res){
 
 async function show(req, res) {
   try {
-    // find vlog by Id
     const vlog = await Vlog.findById(req.params.vlogId)
-    // populate author
     .populate([
       {path: 'author'},
       {path: 'comments.author'}
     ])
     res.status(200).json(vlog)
-    // return vlog
   } catch (error) {
     console.log('❌', error)
     res.status(500).json(error)
+  }
 }
+
+async function update(req, res) {
+  try {
+    // find vlog by id and update
+    const vlog = await Vlog.findByIdAndUpdate(
+      req.params.vlogId,
+      req.body,
+      { new : true}
+    )
+    .populate('author')
+    res.status(200).json(vlog)
+    // params: vlogId & req.body
+    // new: true
+    // populate author
+    // return vlog
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export {
   create,
   index,
-  show
+  show,
+  update,
 }

@@ -11,5 +11,6 @@ router.get('/:vlogId', vlogsCtrl.show)
 // ========= Protected Routes ========= 
 router.use(decodeUserFromToken)
 router.post('/', checkAuth, vlogsCtrl.create)
+router.put('/:vlogId/edit', checkAuth, vlogsCtrl.update)
 
 export { router }
