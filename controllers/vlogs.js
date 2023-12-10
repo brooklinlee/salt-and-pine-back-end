@@ -76,7 +76,6 @@ async function deleteVlog(req, res) {
   }
 }
 
-// add comment
 async function createComment(req, res) {
   try {
     req.body.author = req.user.profile
@@ -93,6 +92,32 @@ async function createComment(req, res) {
   }
 }
 
+// edit comment
+async function updateComment(req, res) {
+  try {
+    const vlog = await Vlog.findById(req.params.vlogId)
+    .populate({path: 'comments.author'})
+    const comment = vlog.comments.id(req.params.commentId)
+    comment.text = req.body.text
+    await vlog.save()
+    res.status(200).json(comment)
+  } catch (error) {
+    console.log('❌', error)
+    res.status(500).json(error)
+  }
+}
+
+// delete comment
+async function deleteComment(req, res) {
+  try {
+    
+  } catch (error) {
+    console.log('❌', error)
+    res.status(500).json(error)
+  }
+}
+
+
 export {
   create,
   index,
@@ -100,4 +125,6 @@ export {
   update,
   deleteVlog as delete,
   createComment,
+  updateComment,
+  deleteComment,
 }
