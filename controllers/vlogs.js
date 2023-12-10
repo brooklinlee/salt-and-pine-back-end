@@ -58,20 +58,38 @@ async function update(req, res) {
     .populate('author')
     res.status(200).json(vlog)
   } catch (error) {
-    console.log(error)
+    console.log('❌', error)
+    res.status(500).json(error)
   }
 }
 
 async function deleteVlog(req, res) {
   try {
-    // find by Id and delete
     const vlog = await Vlog.findByIdAndDelete(req.params.vlogId)
     const profile = await Profile.findByIdAndUpdate(req.user.profile)
     profile.vlogs.remove({ _id: req.params.vlogId })
     await profile.save()
     res.status(200).json(vlog)
   } catch (error) {
-    console.log(error)
+    console.log('❌', error)
+    res.status(500).json(error)
+  }
+}
+
+// add comment
+async function createComment(req, res) {
+  try {
+    req.body.author = req.user.profile
+    const vlog = await Vlog.findById(req.params.vlogId)
+    vlog.comments.push(req.body)
+    await vlog.save()
+    const newComment = vlog.comments[vlog.comments.length - 1]
+    const profile = await Profile.findById(req.user.profile)
+    newComment.author = profile
+    res.status(201).json(newComment)
+  } catch (error) {
+    console.log('❌', error)
+    res.status(500).json(error)
   }
 }
 
@@ -81,4 +99,5 @@ export {
   show,
   update,
   deleteVlog as delete,
+  createComment,
 }

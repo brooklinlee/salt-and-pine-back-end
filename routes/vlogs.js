@@ -13,5 +13,6 @@ router.use(decodeUserFromToken)
 router.post('/', checkAuth, vlogsCtrl.create)
 router.put('/:vlogId', checkAuth, vlogsCtrl.update)
 router.delete('/:vlogId', checkAuth, vlogsCtrl.delete)
+router.post('/:vlogId/comments', checkAuth, vlogsCtrl.createComment)
 
 export { router }
