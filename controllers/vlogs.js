@@ -110,7 +110,11 @@ async function updateComment(req, res) {
 // delete comment
 async function deleteComment(req, res) {
   try {
-    
+    const vlog = await Vlog.findById(req.params.vlogId)
+    const comment = vlog.comments.id(req.params.commentId)
+    comment.deleteOne()
+    await vlog.save()
+    res.status(200).json(comment)
   } catch (error) {
     console.log('❌', error)
     res.status(500).json(error)
