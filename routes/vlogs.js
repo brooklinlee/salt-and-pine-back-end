@@ -6,6 +6,7 @@ const router = Router()
 
 // ========== Public Routes ===========
 router.get('/', vlogsCtrl.index)
+router.get('/:vlogId', vlogsCtrl.show)
 
 // ========= Protected Routes ========= 
 router.use(decodeUserFromToken)

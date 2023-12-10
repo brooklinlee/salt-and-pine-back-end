@@ -24,13 +24,10 @@ async function create(req, res) {
 
 async function index(req, res){
   try {
-    // find all vlogs
     const vlogs = await Vlog.find({})
-    // populate the author
     .populate('author')
-    // sort in desc order by when it was createdAt
     .sort({ createdAt: 'desc' })
-    // return something
+    console.log('Populated vlogs: ', vlogs)
     res.status(200).json(vlogs)
   } catch (error) {
     console.log('❌', error)
@@ -38,7 +35,25 @@ async function index(req, res){
   }
 }
 
+async function show(req, res) {
+  try {
+    // find vlog by Id
+    const vlog = await Vlog.findById(req.params.vlogId)
+    // populate author
+    .populate([
+      {path: 'author'},
+      {path: 'comments.author'}
+    ])
+    res.status(200).json(vlog)
+    // return vlog
+  } catch (error) {
+    console.log('❌', error)
+    res.status(500).json(error)
+}
+}
+
 export {
   create,
   index,
+  show
 }
